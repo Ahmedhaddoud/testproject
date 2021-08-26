@@ -1,0 +1,18 @@
+{
+  "/api/v1/descriptor": {
+    "target": "http://localhost:8080",
+    "secure": false
+  },
+  "/api/v1/download": {
+    "target": "http://localhost:8080",
+    "secure": false
+  },
+  "/api/v1/upload": {
+    "target": "http://localhost:8080",
+    "secure": false
+  },
+  "/api/v1/saveConfigDescriptor": {
+    "target": "http://localhost:8080",
+    "secure": false
+  }
+}

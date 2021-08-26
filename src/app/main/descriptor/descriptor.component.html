@@ -1,0 +1,681 @@
+<div class="page-layout blank p-24" fusePerfectScrollbar>
+
+    <div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+
+        <!-- HEADER -->
+        <div class="header accent p-24 h-100" fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="column" fxLayoutAlign="center start">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="secondary-text s-18">home</mat-icon>
+                    <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                    <span class="secondary-text">New Descriptor</span>
+                </div>
+                
+            </div>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content p-24">
+
+            <div class="h1 pt-48">
+                Config Descriptor version 0.2
+            </div>
+
+            <p class="pb-32">
+                This config descriptor version is the supported version of the Drop 2
+            </p>
+
+            <div class="block-viewer-header">
+                
+        
+                <div style="float:right;display:flex">
+                    <input hidden type="file" #fileInput (change)="uploadConfigDescriptor($event.target.files)" accept=".yml"/>
+        
+                    <button class="mat-button uploadButton" (click)="fileInput.click()">
+                        <mat-icon class="uploadIcon">cloud_upload</mat-icon> Upload
+                    </button>
+                </div>
+        
+        
+            </div>
+
+           <!-- <p>
+                <label for="file">Choose File</label>
+    <input type="file"
+           id="file"
+           (change)="handleFileInput($event.target.files)">
+                
+              </p>-->
+
+            <div class="vertical-stepper-wrapper">
+                <!-- <form [formGroup]="formGroup">-->
+                <!-- VERTICAL STEPPER EXAMPLE -->
+                <mat-vertical-stepper class="mat-elevation-z4" [linear]="true">
+
+                    <mat-step [stepControl]="verticalStepperStepDescriptorDetails">
+
+                        <form fxLayout="column" [formGroup]="verticalStepperStepDescriptorDetails">
+
+                            <ng-template matStepLabel>Descriptor Details</ng-template>
+
+                            <div fxFlex="1 0 auto" fxLayout="column">
+
+
+                                    <mat-form-field appearance="outline" fxFlex="100">
+                                            <mat-label>Syntax Version</mat-label>
+                                            <input matInput formControlName="SyntaxVersion" required>
+                                            <mat-error *ngIf="verticalStepperStepDescriptorDetails.controls.SyntaxVersion.invalid">
+                                                <span [hidden]="!verticalStepperStepDescriptorDetails.controls['SyntaxVersion'].errors.required">
+                                                    This field is required.
+                                                </span>
+                                                <span [hidden]="!verticalStepperStepDescriptorDetails.controls['SyntaxVersion'].errors.pattern">
+                                                    Must be a valid version
+                                                </span>
+                                            </mat-error>
+                                        </mat-form-field>
+
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>Name</mat-label>
+                                    <input matInput formControlName="Name" required>
+                                    <mat-error *ngIf="verticalStepperStepDescriptorDetails.controls.Name.invalid">
+                                        <span [hidden]="!verticalStepperStepDescriptorDetails.controls['Name'].errors.required">
+                                            This field is required.
+                                        </span>
+                                        <span [hidden]="!verticalStepperStepDescriptorDetails.controls['Name'].errors.pattern">
+                                            Must be an alphanumeric string without special characters
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>Maintainer</mat-label>
+                                    <input matInput formControlName="Maintainer" required>
+                                    <mat-error *ngIf="verticalStepperStepDescriptorDetails.controls.Maintainer.invalid">
+                                        <span [hidden]="!verticalStepperStepDescriptorDetails.controls['Maintainer'].errors.required">
+                                            This field is required.
+                                        </span>
+                                        <span [hidden]="!verticalStepperStepDescriptorDetails.controls['Maintainer'].errors.pattern">
+                                            Must be LAST_NAME.FIRST_NAME
+                                        </span>
+                                    </mat-error>
+
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>Description</mat-label>
+                                    <input matInput formControlName="Description" required>
+                                    <mat-error>Description is required!</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field>
+                                    <mat-label>Scope (required)</mat-label>
+                                    <select  matNativeControl required formControlName="Scope" >
+                                        <option label="-- Scope --"></option>
+                                        <option *ngFor="let o of ScopeOptions"   [disabled]="o.name === 'SYSTEM' || 
+                                        o.name === 'SERVICE' || o.name === 'MODULE' || o.name=== 'DEVICE'" >
+                                            {{o.name}}
+                                        </option>
+                                    </select>
+                                    <mat-error *ngIf="Scope.hasError('required')">
+                                        This field is required
+                                    </mat-error>
+
+                                </mat-form-field>
+
+
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>Version</mat-label>
+                                    <input matInput formControlName="Version" required>
+                                    <mat-error *ngIf="verticalStepperStepDescriptorDetails.controls.Version.invalid">
+                                        <span [hidden]="!verticalStepperStepDescriptorDetails.controls['Version'].errors.required">
+                                            This field is required.
+                                        </span>
+                                        <span [hidden]="!verticalStepperStepDescriptorDetails.controls['Version'].errors.pattern">
+                                            Must be a valid version number: MAJOR.MINOR.PATCH-LABEL
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+
+                            </div>
+
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <button mat-raised-button matStepperNext type="button" color="accent">
+                                    Next
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </mat-step>
+
+                    <!-- scope details-->
+                    <mat-step [stepControl]="verticalStepperStepSystemScope" *ngIf="this.verticalStepperStepDescriptorDetails.get('Scope').value == 'SYSTEM'">
+
+                        <form fxLayout="column" [formGroup]="verticalStepperStepSystemScope">
+
+                            <ng-template matStepLabel>Scope Details</ng-template>
+
+
+                            <div fxFlex="1 0 auto" fxLayout="row">
+                                <!-- System Scope -->
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>System Name</mat-label>
+                                    <input matInput formControlName="sysName" required>
+                                    <mat-error *ngIf="verticalStepperStepSystemScope.controls.sysName.invalid">
+                                        <span [hidden]="!verticalStepperStepSystemScope.controls['sysName'].errors.required">
+                                            This field is required.
+                                        </span>
+                                        <span [hidden]="!verticalStepperStepSystemScope.controls['sysName'].errors.pattern">
+                                            Must be an alphanumeric string without special characters
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+
+                            </div>
+
+
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
+                                    Previous
+                                </button>
+                                <button mat-raised-button matStepperNext type="button" color="accent">
+                                    Next
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </mat-step>
+
+                    <mat-step [stepControl]="verticalStepperStepServiceScope" *ngIf="this.verticalStepperStepDescriptorDetails.get('Scope').value == 'SERVICE'">
+
+                        <form fxLayout="column" [formGroup]="verticalStepperStepServiceScope">
+
+                            <ng-template matStepLabel>Scope Details</ng-template>
+
+
+                            <div fxFlex="1 0 auto" fxLayout="column">
+                                <!-- Service Scope -->
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>Service Name</mat-label>
+                                    <input matInput formControlName="serviceName" required>
+                                    <mat-error *ngIf="verticalStepperStepServiceScope.controls.serviceName.invalid">
+                                        <span [hidden]="!verticalStepperStepServiceScope.controls['serviceName'].errors.required">
+                                            This field is required.
+                                        </span>
+                                        <span [hidden]="!verticalStepperStepServiceScope.controls['serviceName'].errors.pattern">
+                                            Must be an alphanumeric string without special characters
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="example-chip-list">
+                                    <mat-chip-list id="name" #chipList1 aria-label="System name selection" formArrayName="names">
+
+                                        <mat-chip *ngFor="let name of verticalStepperStepServiceScope.get('names').controls; let i=index;" [selectable]="selectable" [removable]="removable"
+                                            (removed)="remove(verticalStepperStepServiceScope, i)">
+                                            {{name.value}}
+                                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                        </mat-chip>
+
+                                        <input placeholder="New System name..." [matChipInputFor]="chipList1" matInput [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event, verticalStepperStepServiceScope)">
+
+                                    </mat-chip-list>
+                                    <mat-error>Atleast 1 name need to be added</mat-error>
+                                </mat-form-field>
+
+                            </div>
+
+
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
+                                    Previous
+                                </button>
+                                <button mat-raised-button matStepperNext type="button" color="accent">
+                                    Next
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </mat-step>
+                    <mat-step [stepControl]="verticalStepperStepComponentScope" *ngIf="this.verticalStepperStepDescriptorDetails.get('Scope').value == 'COMPONENT'">
+
+                        <form fxLayout="column" [formGroup]="verticalStepperStepComponentScope">
+
+                            <ng-template matStepLabel>Scope Details</ng-template>
+
+                            <div fxFlex="1 0 auto" fxLayout="column">
+                                <!--Component Scope -->
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>Component Name</mat-label>
+                                    <input matInput formControlName="componentName" required>
+                                    <mat-error *ngIf="verticalStepperStepComponentScope.controls.componentName.invalid">
+                                        <span [hidden]="!verticalStepperStepComponentScope.controls['componentName'].errors.required">
+                                            This field is required.
+                                        </span>
+                                        <span [hidden]="!verticalStepperStepComponentScope.controls['componentName'].errors.pattern">
+                                            Must be an alphanumeric string without special characters
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="example-chip-list">
+                                    <mat-chip-list #chipList2 aria-label="Service name selection" formArrayName="serviceNamesComp" aria-required="true">
+
+                                        <mat-chip *ngFor="let name of verticalStepperStepComponentScope.get('serviceNamesComp').controls; let i=index;" [selectable]="selectable"
+                                            [removable]="removable" (removed)="remove(verticalStepperStepComponentScope, i,'Service')">
+                                            {{name.value}}
+                                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                        </mat-chip>
+
+                                        <input placeholder="Service name..." required [matChipInputFor]="chipList2" matInput [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event, verticalStepperStepComponentScope,'Service')">
+
+                                    </mat-chip-list>
+                                    <mat-error>Atleast 1 name need to be added</mat-error>
+                                </mat-form-field>
+
+
+
+                                <mat-form-field class="example-chip-list">
+                                    <mat-chip-list #chipList3 aria-label="System name selection" formArrayName="systemNamesComp">
+                                        <!-- still u need to change this -->
+                                        <mat-chip *ngFor="let name of verticalStepperStepComponentScope.get('systemNamesComp').controls; let i=index;" [selectable]="selectable"
+                                            [removable]="removable" (removed)="remove(verticalStepperStepComponentScope, i,'System')">
+                                            {{name.value}}
+                                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                        </mat-chip>
+
+                                        <input placeholder="System name..." [matChipInputFor]="chipList3" matInput [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event, verticalStepperStepComponentScope,'System')">
+
+                                    </mat-chip-list>
+                                    <mat-error>Atleast 1 name need to be added</mat-error>
+                                </mat-form-field>
+
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
+                                    Previous
+                                </button>
+                                <button mat-raised-button matStepperNext type="button" color="accent">
+                                    Next
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </mat-step>
+
+                    <!--****************************-->
+
+                    <mat-step [stepControl]="verticalStepperStepDeviceScope" *ngIf="this.verticalStepperStepDescriptorDetails.get('Scope').value == 'DEVICE'">
+
+                        <form fxLayout="column" [formGroup]="verticalStepperStepDeviceScope">
+
+                            <ng-template matStepLabel>Scope Details</ng-template>
+
+
+                            <div fxFlex="1 0 auto" fxLayout="column">
+                                <!-- Device Scope -->
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>Device Name</mat-label>
+                                    <input matInput formControlName="deviceName" required>
+                                    <mat-error *ngIf="verticalStepperStepDeviceScope.controls.deviceName.invalid">
+                                        <span [hidden]="!verticalStepperStepDeviceScope.controls['deviceName'].errors.required">
+                                            This field is required.
+                                        </span>
+                                        <span [hidden]="!verticalStepperStepDeviceScope.controls['deviceName'].errors.pattern">
+                                            Must be an alphanumeric string without special characters
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="example-chip-list">
+                                    <mat-chip-list id="name" #chipList4 aria-label="System name selection" formArrayName="deviceSystNames">
+
+                                        <mat-chip *ngFor="let name of verticalStepperStepDeviceScope.get('deviceSystNames').controls; let i=index;" [selectable]="selectable"
+                                            [removable]="removable" (removed)="remove(verticalStepperStepDeviceScope, i,'')">
+                                            {{name.value}}
+                                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                        </mat-chip>
+
+                                        <input placeholder="New System name..." [matChipInputFor]="chipList4" matInput [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event, verticalStepperStepDeviceScope,'')">
+
+                                    </mat-chip-list>
+                                    <mat-error>Atleast 1 name need to be added</mat-error>
+                                </mat-form-field>
+
+                            </div>
+
+
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
+                                    Previous
+                                </button>
+                                <button mat-raised-button matStepperNext type="button" color="accent">
+                                    Next
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </mat-step>
+
+                    <!--********************************-->
+                    <mat-step [stepControl]="verticalStepperStepModuleScope" *ngIf="this.verticalStepperStepDescriptorDetails.get('Scope').value == 'MODULE'">
+
+                        <form fxLayout="column" [formGroup]="verticalStepperStepModuleScope">
+
+                            <ng-template matStepLabel>Scope Details</ng-template>
+
+                            <div fxFlex="1 0 auto" fxLayout="column">
+                                <!--Module Scope -->
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>Module Name</mat-label>
+                                    <input matInput formControlName="moduleName" required>
+                                    <mat-error *ngIf="verticalStepperStepModuleScope.controls.moduleName.invalid">
+                                        <span [hidden]="!verticalStepperStepModuleScope.controls['moduleName'].errors.required">
+                                            This field is required.
+                                        </span>
+                                        <span [hidden]="!verticalStepperStepModuleScope.controls['moduleName'].errors.pattern">
+                                            Must be an alphanumeric string without special characters
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="example-chip-list">
+                                    <mat-chip-list #chipList5 aria-label="Devices name selection" formArrayName="deviceModNames" aria-required="true">
+
+                                        <mat-chip *ngFor="let name of verticalStepperStepModuleScope.get('deviceModNames').controls; let i=index;" [selectable]="selectable"
+                                            [removable]="removable" (removed)="remove(verticalStepperStepModuleScope, i,'Device')">
+                                            {{name.value}}
+                                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                        </mat-chip>
+
+                                        <input placeholder="New Device name..." required [matChipInputFor]="chipList5" matInput [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event, verticalStepperStepModuleScope,'Device')">
+
+                                    </mat-chip-list>
+                                    <mat-error>Atleast 1 name need to be added</mat-error>
+                                </mat-form-field>
+
+
+
+                                <mat-form-field class="example-chip-list">
+                                    <mat-chip-list #chipList6 aria-label="System name selection" formArrayName="systemModNames">
+                                        <!-- still u need to change this -->
+                                        <mat-chip *ngFor="let name of verticalStepperStepModuleScope.get('systemModNames').controls; let i=index;" [selectable]="selectable"
+                                            [removable]="removable" (removed)="remove(verticalStepperStepModuleScope, i,'System')">
+                                            {{name.value}}
+                                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                        </mat-chip>
+
+                                        <input placeholder="New System name..." [matChipInputFor]="chipList6" matInput [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event, verticalStepperStepModuleScope,'System')">
+
+                                    </mat-chip-list>
+                                    <mat-error>Atleast 1 name need to be added</mat-error>
+                                </mat-form-field>
+
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
+                                    Previous
+                                </button>
+                                <button mat-raised-button matStepperNext type="button" color="accent">
+                                    Next
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </mat-step>
+
+                    <mat-step [stepControl]="formGroupConfigItems" [formGroup]="formGroupConfigItems">
+                        <ng-template matStepLabel> Config Items Details
+                        </ng-template>
+                        <div fxFlex="1 0 auto" fxLayout="Row" fxLayoutAlign="right">
+
+
+                            <button (click)="addConfigItem()" mat-icon-button color="accent" aria-label="Example icon-button with a heart icon" type="button"
+                                color="accent">
+                                <mat-icon>add_circle</mat-icon>Add config item
+
+                            </button>
+                        </div>
+                        <mat-accordion formArrayName="formArrayConfigItems">
+                            <div *ngFor="let conf of formGroupConfigItems.get('formArrayConfigItems').controls; let confIndex = index"  [formGroupName]="confIndex">
+                                <mat-expansion-panel>
+
+                                    <mat-expansion-panel-header>
+                                        <button *ngIf="formGroupConfigItems.controls.formArrayConfigItems.length>=2" (click)="deleteConfigItem(confIndex)" mat-icon-button aria-label="Example icon-button with a heart icon"
+                                            type="button" color="accent">
+                                            <mat-icon class="red-A700-fg">delete</mat-icon>
+                                        </button>
+                                        <mat-panel-title fxLayout="row" fxLayoutAlign="left ">
+
+
+                                            Config Item {{confIndex+1}} Details
+
+
+
+                                        </mat-panel-title>
+
+
+                                    </mat-expansion-panel-header>
+
+                                    <form fxLayout="column" [formGroup]="conf">
+                                        <mat-form-field appearance="outline" fxFlex="100">
+                                            <mat-label>Key</mat-label>
+                                            <input matInput formControlName="Key" required>
+                                            <mat-error *ngIf="conf.controls.Key.invalid">
+                                                <span [hidden]="!conf.controls['Key'].errors.required">
+                                                    This field is required.
+                                                </span>
+                                                <span [hidden]="!conf.controls['Key'].errors.pattern">
+                                                    Must be a set of strings without special characters (except _-) separated by dots and each string cannot start with a number
+                                                </span>
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field appearance="outline" fxFlex="100">
+                                            <mat-label>Doc</mat-label>
+                                            <input matInput formControlName="Doc" required>
+                                            <mat-error>Doc is required!</mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field>
+                                            <mat-label>Type (required)</mat-label>
+                                            <select matNativeControl #type required formControlName="TypeI">
+                                                <option label="-- Type --"></option>
+                                                <option *ngFor="let o1 of optionsType" [ngValue]="o1" >
+                                                    {{o1}}
+                                                </option>
+                                            </select>
+                                            <mat-error *ngIf="conf.controls['TypeI'].hasError('required')">
+                                                This field is required
+                                            </mat-error>
+
+                                        </mat-form-field>
+                                        <div fxLayout="column" appearance="outline" fxFlex="100" formGroupName="CanBeChangedByCheckboxGroup">
+                                            <div class="label">CanBeChangedBy
+                                                <span class="highlight">*</span>
+                                            </div>
+
+
+                                            <mat-checkbox class="example-margin" formControlName="D">D</mat-checkbox>
+                                            <mat-checkbox class="example-margin" formControlName="RM">RM</mat-checkbox>
+                                            <mat-checkbox class="example-margin" formControlName="PT">PT</mat-checkbox>
+                                            <mat-checkbox class="example-margin" formControlName="SBST">SBST</mat-checkbox>
+                                            <mat-checkbox class="example-margin" formControlName="CST">CST</mat-checkbox>
+                                            <mat-checkbox class="example-margin" formControlName="SBFT">SBFT</mat-checkbox>
+                                            <mat-checkbox class="example-margin" formControlName="CFT">CFT</mat-checkbox>
+                                            <mat-checkbox class="example-margin" formControlName="SBOT">SBOT</mat-checkbox>
+                                            <mat-checkbox class="example-margin" formControlName="COT">COT</mat-checkbox>
+                                            <mat-error *ngIf="conf.controls['CanBeChangedByCheckboxGroup'].errors && conf.controls['CanBeChangedByCheckboxGroup'].errors.requireOneCheckboxToBeChecked">
+                                                At least one checkbox is required to check</mat-error>
+
+                                        </div>
+                                        <mat-form-field class="example-chip-list">
+                                            <mat-chip-list #chipListPV aria-label="Possible values name selection" formArrayName="possibleValues">
+                                                <!-- still u need to change this  -->
+                                                <mat-chip *ngFor="let pv of conf.get('possibleValues').controls; let i=index;" [selectable]="selectable" [removable]="removable"
+                                                    (removed)="removePv(conf, i,'pv')">
+                                                    {{pv.value}}
+                                                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                                </mat-chip>
+
+                                                <input placeholder="Possible Value ..." [matChipInputFor]="chipListPV" matInput [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addPv($event, conf,'pv')">
+
+                                            </mat-chip-list>
+                                            <mat-error>Atleast 1 possible value need to be added</mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field appearance="outline" fxFlex="100">
+                                            <mat-label>Default value</mat-label>
+                                            <input matInput formControlName="DefaultValue" required>
+                                            
+                                            <mat-error *ngIf="conf.controls['DefaultValue'].hasError('mismatched')">
+                                                    Should be in the possible value list
+                                            </mat-error>
+
+                                        </mat-form-field>
+                                        <mat-form-field appearance="outline" fxFlex="100">
+                                            <mat-label>Pattern</mat-label>
+                                            <input matInput formControlName="Pattern" (keyup)="update()">
+
+                                        </mat-form-field>
+                                        <mat-form-field>
+                                            <mat-label>Nature (required)</mat-label>
+                                            <select matNativeControl required formControlName="Nature">
+                                                <option label="-- Nature --"></option>
+                                                <option *ngFor="let o2 of optionsNature" [ngValue]="o2">
+                                                    {{o2}}
+                                                </option>
+                                            </select>
+                                            <mat-error *ngIf="conf.controls['Nature'].hasError('required')">
+                                                This field is required
+                                            </mat-error>
+
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline" fxFlex="100">
+                                            <mat-label>OnChange</mat-label>
+                                            <input matInput formControlName="OnChangeI" required>
+                                            <mat-error>OnChange is required!</mat-error>
+                                        </mat-form-field>
+
+                                        Dependencies
+                                            <div fxFlex="1 0 auto" fxLayout="Row">
+                                                <button (click)="addDependencie(conf)" mat-icon-button color="accent" aria-label="Example icon-button with a heart icon">
+                                                    <mat-icon>add_circle</mat-icon>
+                                                </button>
+                                                <button fxLayoutAlign="right right" (click)="emptyTable(conf.controls['dependencies'])" mat-icon-button color="accent" aria-label="Example icon-button with a heart icon">
+                                                    <mat-icon>clear</mat-icon>
+                                                </button>
+                                            </div>
+                                        
+                                        
+                                        
+
+                                    <div formArrayName="dependencies" *ngFor="let dep of conf.get('dependencies').controls; let i = index;" class="border">
+                                        <div >
+                                            Dependencie {{i+1}}
+                                        </div>
+                                        <div [formGroupName]="i"  fxFlex="1 0 auto" fxLayout="Row">
+                                            <div appearance="outline" fxFlex="100">
+                                            <input formControlName="name" placeholder="Name">
+                                            <mat-error *ngIf="dep.controls['name'].hasError('required')">
+                                                This field is required
+                                            </mat-error>
+                                        </div>
+                                            <div appearance="outline" fxFlex="100">
+                                          <select matNativeControl formControlName="dependOn">
+                                            <option label="-- DependOn --"></option>
+                                            <option *ngFor="let o3 of optionsDependOn" [ngValue]="o3">
+                                                {{o3}}
+                                            </option>
+                                        </select>
+                                       
+                                        <mat-error *ngIf="dep.controls['dependOn'].hasError('required')">
+                                            This field is required
+                                        </mat-error>
+                                    </div>
+                                     <div appearance="outline" fxFlex="100">
+                                        <input formControlName="onChange" placeholder="OnChange">
+                                                    <mat-error *ngIf="dep.controls['onChange'].hasError('required')">
+                                                        This field is required
+                                                    </mat-error>
+                                    </div>
+                                    <div appearance="outline" fxFlex="100">
+                                                    <button  (click)="deleteDependencie(conf, i)" mat-icon-button color="accent" aria-label="Example icon-button with a heart icon">
+                                                        <mat-icon class="red-A700-fg">delete_outline</mat-icon>
+                                                    </button>
+                                    </div>
+                                        </div>
+                                      </div>
+
+
+
+                                        
+                                    </form>
+                                </mat-expansion-panel>
+                            </div>
+
+                        </mat-accordion>
+                        <div fxLayout="row" fxLayoutAlign="center center">
+                            <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
+                                Previous
+                            </button>
+                            <button mat-raised-button matStepperNext type="button" color="accent">
+                                Next
+                            </button>
+                        </div>
+                    </mat-step>
+                 
+
+
+
+                    <mat-step>
+
+                        <ng-template matStepLabel>Done</ng-template>
+
+
+
+
+                        <div fxLayout="row" fxLayoutAlign="center center">
+                            <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
+                                Previous
+                            </button>
+                            <button class="mr-8" mat-raised-button type="button" color="accent" (click)="finishVerticalStepper()">
+                                Export YML File
+                            </button>
+                            <button  class="mr-8" mat-raised-button type="button" color="accent" (click)="addToElasticSearch()" >
+                               Save to Elastic serach
+                            </button>
+                            
+                        </div>
+                       <!-- <app-dialog></app-dialog>-->
+
+                    </mat-step>
+
+                </mat-vertical-stepper>
+                <!-- / VERTICAL STEPPER EXAMPLE -->
+
+
+            </div>
+
+        </div>
+        <!-- / CONTENT -->
+
+    </div>
+
+
+
+
+
+
+</div>

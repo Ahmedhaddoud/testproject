@@ -1,0 +1,128 @@
+<!-- <div class="panel panel-primary">
+  <div class="panel-heading">
+    <h2>Employee List</h2>
+  </div>
+  <div class="panel-body">
+    <table  id ="datatable-example" class="display" width="100%" cellspacing="0">
+
+      <thead>
+      <tr>
+        <th >FirstName</th>
+        <th >LaststName</th>
+        <th >Email</th>
+        
+        <th >Phone</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let c of collaboraters | async">
+        <td>{{c.firstName}}</td>
+        <td>{{c.lastName}}</td>
+
+       
+
+        <td><button  (click)="deleteEmployee(employee.id)" class="btn btn-danger">Delete</button>
+          <button  (click)="updateEmployee(employee.id)" class="btn btn-success" style="margin-left: 10px">Edit details</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+ -->
+
+ <div class="page-layout blank p-24" fusePerfectScrollbar>
+
+  <div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+
+      <!-- HEADER -->
+      <div class="header accent p-24 h-100" fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="center start">
+              <div fxLayout="row" fxLayoutAlign="start center">
+                  <mat-icon class="secondary-text s-18">home</mat-icon>
+                  <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                  <span class="secondary-text">List of collaboraters</span>
+              </div>
+              
+          </div>
+      </div>
+      <!-- / HEADER -->
+
+      <!-- CONTENT -->
+      <ng2-smart-table 
+            [settings]="settings" 
+            [source]="collaboraters" 
+            (deleteConfirm)="onDeleteConfirm($event)"
+            (custom)="onEdit($event)"
+            (custom2)="onDetail($event)"
+            (editConfirm)="onEditConfirm($event)"> 
+          </ng2-smart-table>
+  
+      <!-- / CONTENT -->
+
+  </div>
+
+
+
+  <div>
+    <p>Upadate collaborater</p>
+    <form [formGroup]="CollaboraterForm" (ngSubmit)="onSubmit()"> 
+     
+      <div class="form-group row">
+    <mat-form-field appearance="outline" fxFlex="20">
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstname"   required  >
+    
+     
+  </mat-form-field>
+
+  </div>
+  <div class="form-group row">
+  <mat-form-field appearance="outline" fxFlex="20">
+    <mat-label>Last Name</mat-label>
+    <input matInput  formControlName="lastname" required>
+
+</mat-form-field>
+  </div>
+
+
+
+<div class="form-group row">
+<mat-form-field appearance="outline" fxFlex="30">
+  <mat-label>Email</mat-label>
+  <input matInput  formControlName="email" required>
+
+</mat-form-field>
+</div>
+
+
+<div class="form-group row">
+<mat-form-field appearance="outline" fxFlex="30">
+  <mat-label>Role</mat-label>
+  <input matInput  formControlName="role" required>
+
+</mat-form-field>
+</div>
+
+<div class="form-group row">
+  <mat-form-field appearance="outline" fxFlex="30">
+    <mat-label>Adress</mat-label>
+    <input matInput  formControlName="adress" required>
+  
+  </mat-form-field>
+  </div>
+
+
+  <div class="form-group row">
+  <button mat-raised-button color="primary">Edit</button>
+</div>
+
+  
+</form>
+  
+
+
+</div>
+
