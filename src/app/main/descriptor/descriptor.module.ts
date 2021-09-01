@@ -21,6 +21,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { DialogComponent } from '../dialog/dialog.component';
 import { ViewDescriptorComponent } from '../view-descriptor/view-descriptor.component';
 import { DialogSuccessComponent } from '../dialog-success/dialog-success.component';
+import { ValidationComponent } from './validation/validation.component';
 
 
 const routes = [
@@ -32,6 +33,10 @@ const routes = [
     {
         path     : 'ViewDescriptor',
         component: ViewDescriptorComponent
+    },
+    {
+        path     : 'Validation',
+        component: ValidationComponent
     }
    
 ];
@@ -40,7 +45,8 @@ const routes = [
     declarations: [
         DescriptorComponent,
         DialogComponent,
-        DialogSuccessComponent
+        DialogSuccessComponent,
+        ValidationComponent
         
     ],
     entryComponents: [DialogComponent,DialogSuccessComponent],
@@ -69,6 +75,7 @@ const routes = [
     ],
     exports     : [
         DescriptorComponent,
+        ValidationComponent
         
     ]
 })

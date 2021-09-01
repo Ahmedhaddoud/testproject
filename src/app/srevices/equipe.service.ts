@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ApiResponse} from "../model/api.response";
 import {Equipe} from "../model/Equipe";
+import { Collaborater } from 'app/model/Collaborater';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,10 @@ export class EquipeService {
   DeleteEquipe(id:number):Observable<ApiResponse>{
     return this.http.delete<ApiResponse>(this.baseUrl+"/deleteequipe/"+id);
   }
-
+  AssignCollaboraterEquipe(ide: number, c:Collaborater): Observable<ApiResponse>{
+    console.log("success service");
+  return this.http.put<ApiResponse>(this.baseUrl+"/assign/"+ide, c);
+  
+}
 
 }

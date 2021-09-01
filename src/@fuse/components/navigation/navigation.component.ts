@@ -29,7 +29,8 @@ export class FuseNavigationComponent implements OnInit
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseNavigationService: FuseNavigationService
+        private _fuseNavigationService: FuseNavigationService,
+        
     )
     {
         // Set the private defaults

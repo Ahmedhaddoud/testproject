@@ -28,6 +28,8 @@ import {MatSnackBar  , MatSnackBarHorizontalPosition, MatSnackBarVerticalPositio
 import { DialogComponent } from '../dialog/dialog.component';
 import { saveAs } from 'file-saver';
 import { DialogSuccessComponent } from '../dialog-success/dialog-success.component';
+import { ConfigDescriptorService } from 'app/srevices/config-descriptor.service';
+import { ConfigDescriptor } from 'app/model/ConfigDescriptor';
 
 @Component({
   selector: 'descriptor',
@@ -37,6 +39,9 @@ import { DialogSuccessComponent } from '../dialog-success/dialog-success.compone
 
 
 export class DescriptorComponent implements OnInit {
+
+ c:ConfigDescriptor;
+
 
   /**
    * Constructor
@@ -55,7 +60,7 @@ export class DescriptorComponent implements OnInit {
 
 
   constructor(private _formBuilder: FormBuilder, private descriptorService: DescriptorService,
-              public dialog: MatDialog, private datePipe: DatePipe
+              public dialog: MatDialog, private datePipe: DatePipe, private cs:ConfigDescriptorService
   ) {
    
     this._unsubscribeAll = new Subject();
@@ -600,9 +605,25 @@ s: string;
     this.createDescriptorObject();
     this.descriptorService.addDescriptor(this.descriptor)
       .subscribe( value => {
+        
         if (value != null){
-          console.log('[POST] added descriptor successfully', value);
+          
+          console.log('[POST] added descriptor successfully', value.maintainer);
           this.openDialog('Added config descriptor successfully to elasticSerach', 'Success', DialogSuccessComponent);
+          this.c = new ConfigDescriptor()
+          
+          this.c.maintainer=this.descriptor.descriptorConfig.maintainer;
+          this.c.name=value.name;
+          this.c.description=value.description;
+          this.c.etat=("Terminated-not-verified");
+          this.c.id=value.maintainer;
+         
+          
+
+         this.cs.CreateConfigDescriptor(this.c).subscribe(
+            data=>{console.log(data),error => console.error()
+             console.log("added postgres");
+            })
         }
         else {
           console.log('config descriptor null', value);

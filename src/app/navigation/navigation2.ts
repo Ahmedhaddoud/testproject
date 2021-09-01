@@ -3,7 +3,7 @@ import { FuseNavigation } from '@fuse/types';
 
 
  
-export const navigation: FuseNavigation[] = [
+export const navigation2: FuseNavigation[] = [
     {
         id       : 'applications',
         title    : 'Applications',
@@ -29,29 +29,15 @@ export const navigation: FuseNavigation[] = [
                 //port:1358
             },
             {
-                id       : 'collaborater',
-                title    : 'ColaboraterSection',
-                translate: 'Colaborater Section',
-                type     : 'collapsable',
-                icon     : 'layers',
-                children : [
-                   
-                    {
-                        id        : 'addCollaborater',
-                        title     : 'Add Collaborater',
-                        type      : 'item',
-                        url       : '/collaborater/add',
-                        exactMatch: true
-                    }, {
-                        id        : 'listCollaboraters',
-                        title     : 'List of  Collaboraters',
-                        type      : 'item',
-                        url       : '/list',
-                        exactMatch: true
-                    }
+                id       : 'validation',
+                title    : 'Config Descriptors Validation',
+               // translate: 'NAV.SAMPLE.TITLE',
+                type     : 'item',
+                icon     : 'check',
+                url      : '/Validation',
 
-                ]
             },
+            
             {
                 id       : 'team',
                 title    : 'TeamSection',

@@ -26,7 +26,7 @@ import { DescriptorModule } from "app/main/descriptor/descriptor.module";
 import { HttpModule } from "@angular/http";
 import { ViewDescriptorComponent } from "./main/view-descriptor/view-descriptor.component";
 import { DialogSuccessComponent } from "./main/dialog-success/dialog-success.component";
-import { LoginComponent } from "./login/login.component";
+import { LoginModule } from "./main/pages/authentication/login/login.module";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatInputModule } from "@angular/material/input";
@@ -51,7 +51,10 @@ const appRoutes: Routes = [
         path: "login",
         loadChildren: './login/login.module#LoginModule'
     },*/
-
+    {
+        path: "validation",
+        redirectTo: "Validation",
+    },
     {
         path: "**",
         redirectTo: "Descriptor",

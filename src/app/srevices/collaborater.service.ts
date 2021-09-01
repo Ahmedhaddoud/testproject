@@ -17,6 +17,10 @@ export class CollaboraterService {
     return this.http.get<ApiResponse>(this.baseUrl+"/collaboraters");
 
   }
+  getCollaboratersWithoutTeam() : Observable<any>{
+    return this.http.get<ApiResponse>(this.baseUrl+"/collaboratersSansEquipe");
+
+  }
   GetCollaboraterById(id: number):Observable<any>{
     return this.http.get(this.baseUrl+"/collaboraters/"+ id);
   }

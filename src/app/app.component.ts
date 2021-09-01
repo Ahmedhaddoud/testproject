@@ -14,6 +14,12 @@ import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.
 import { navigation } from 'app/navigation/navigation';
 import { locale as navigationEnglish } from 'app/navigation/i18n/en';
 import { locale as navigationTurkish } from 'app/navigation/i18n/tr';
+import { AuthenticationService } from './_services';
+import { navigation2 } from './navigation/navigation2';
+import { FuseNavigation } from '@fuse/types';
+import { Router } from '@angular/router';
+import { navigation3 } from './navigation/navigation3';
+import { navigation4 } from './navigation/navigation4';
 
 @Component({
     selector   : 'app',
@@ -24,6 +30,10 @@ export class AppComponent implements OnInit, OnDestroy
 {
     fuseConfig: any;
     navigation: any;
+    Nullnavigation:any;
+    auth:string;
+
+   
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -48,19 +58,61 @@ export class AppComponent implements OnInit, OnDestroy
         private _fuseSplashScreenService: FuseSplashScreenService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
-        private _platform: Platform
-      
+        private _platform: Platform,
+        private authentication:AuthenticationService,
+        private router:Router
+     
     )
     {
-        // Get default navigation
-        this.navigation = navigation;
+        
+      
+          if(this.authentication.currentUserValue==null){
+              // Get default navigation
+            this.navigation = this.Nullnavigation;
+            
+           
+      
+       
 
-        // Register the navigation to the service
-        this._fuseNavigationService.register('main', this.navigation);
+            // Register the navigation to the service
+            this._fuseNavigationService.register('main', this.navigation);
+    
+            // Set the main navigation as our current navigation
+            this._fuseNavigationService.setCurrentNavigation('main');
+    }else  if(this.authentication.currentUserValue.authorities.authority=="admin"){
+        //this.router.navigate([this.returnUrl]);
+        this._fuseNavigationService.setCurrentNavigation(navigation);
+        this._fuseNavigationService.register('main1', navigation);
 
         // Set the main navigation as our current navigation
-        this._fuseNavigationService.setCurrentNavigation('main');
+        this._fuseNavigationService.setCurrentNavigation('main1');
+   
+    }else   if(this.authentication.currentUserValue.authorities.authority=="architect"){
+       // this.router.navigate([this.returnUrl]);
+        this._fuseNavigationService.setCurrentNavigation(navigation2);
+        this._fuseNavigationService.register('main2', navigation2);
 
+        // Set the main navigation as our current navigation
+        this._fuseNavigationService.setCurrentNavigation('main2');
+   
+
+    }else if(this.authentication.currentUserValue.authorities.authority=="developer") {
+       // this.router.navigate([this.returnUrl]);
+        this._fuseNavigationService.setCurrentNavigation(navigation3);
+        this._fuseNavigationService.register('main3', navigation3);
+
+        // Set the main navigation as our current navigation
+        this._fuseNavigationService.setCurrentNavigation('main3');
+    } else { 
+        this.router.navigate(["validation"]);
+        this._fuseNavigationService.setCurrentNavigation(navigation4);
+        this._fuseNavigationService.register('main4', navigation4);
+
+        // Set the main navigation as our current navigation
+        this._fuseNavigationService.setCurrentNavigation('main4');
+
+    }
+                
         // Add languages
         this._translateService.addLangs(['en', 'tr']);
 
@@ -125,7 +177,28 @@ export class AppComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+      /*  this.auth=this.authentication.currentUserValue.authorities.authority;
+        if (this.auth=="product manager"){
+
+            this.navigation = navigation2;
+            this._fuseNavigationService.register('main', this.navigation);
+
+            // Set the main navigation as our current navigation
+            this._fuseNavigationService.setCurrentNavigation('main');
+    
+
+        }else{
+            this.navigation = navigation;
+            this._fuseNavigationService.register('main', this.navigation);
+
+            // Set the main navigation as our current navigation
+            this._fuseNavigationService.setCurrentNavigation('main');
+    
+        }*/
+
         // Subscribe to config changes
+       // console.log("auth", this.authentication.currentUserValue.authorities.authority) ;
+
         this._fuseConfigService.config
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((config) => {
@@ -155,6 +228,8 @@ export class AppComponent implements OnInit, OnDestroy
 
                 this.document.body.classList.add(this.fuseConfig.colorTheme);
             });
+
+            
     }
 
     /**
@@ -180,4 +255,14 @@ export class AppComponent implements OnInit, OnDestroy
     {
         this._fuseSidebarService.getSidebar(key).toggleOpen();
     }
+   
+   /*public get currentNavigationValue():FuseNavigation[] {
+        if(this.AuthenticationService.currentUserValue.authorities.authority=="product manager"){
+            this.navigation=navigation2;
+
+        }else{
+            this.navigation=this.navigation;
+        }
+        return this.navigation;
+    }*/
 }

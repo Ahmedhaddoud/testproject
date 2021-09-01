@@ -5,11 +5,15 @@ import { map } from "rxjs/operators";
 
 import { User } from "../_models";
 import { Router } from "@angular/router";
+import { FuseNavigation } from "@fuse/types";
+import { navigation2 } from "app/navigation/navigation2";
 
 @Injectable({ providedIn: "root" })
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
+    public navigation: any;
+
 
     constructor(private http: HttpClient, private router: Router) {
         this.currentUserSubject = new BehaviorSubject<User>(
@@ -21,6 +25,7 @@ export class AuthenticationService {
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
     }
+   
 
     login(username: string, password: string) {
         return this.http

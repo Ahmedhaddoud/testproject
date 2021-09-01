@@ -2,11 +2,15 @@ import {Project} from "./Project";
 
 export class ConfigDescriptor
 {
-  id:number;
+  id :bigint;
+  name:String  ;
+	maintainer:String ;
+	description:String ;
+	
+	
+	etat:String;
 
 
   project:Project;
-  item:string;
-  etat:string;
-
+  
 }

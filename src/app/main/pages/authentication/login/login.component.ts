@@ -6,6 +6,13 @@ import { fuseAnimations } from '@fuse/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'app/_services';
 import { first } from 'rxjs/operators';
+import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
+import { FuseNavigation } from '@fuse/types';
+import { navigation2 } from 'app/navigation/navigation2';
+import { Output, EventEmitter } from '@angular/core';
+import { navigation } from 'app/navigation/navigation';
+import { navigation3 } from 'app/navigation/navigation3';
+import { navigation4 } from 'app/navigation/navigation4';
 
 @Component({
     selector     : 'login',
@@ -16,6 +23,7 @@ import { first } from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit
 {
+   
     loginForm: FormGroup;
   
     loading = false;
@@ -23,6 +31,9 @@ export class LoginComponent implements OnInit
     returnUrl: string;
     error = '';
     form:any={};
+    navigation : any;
+
+  
     
 
     /**
@@ -37,11 +48,19 @@ export class LoginComponent implements OnInit
 
         private route: ActivatedRoute,
         private router: Router,
-        private authenticationService: AuthenticationService) {
+        private authenticationService: AuthenticationService,
+        private _fuseNavigationService: FuseNavigationService,
+        ) {
 if (this.authenticationService.currentUserValue) {
+   
+    
     this.router.navigate(['/']);
 }
     {
+        
+          
+        
+
         // Configure the layout
         this._fuseConfigService.config = {
             layout: {
@@ -59,6 +78,7 @@ if (this.authenticationService.currentUserValue) {
                 }
             }
         };
+        
     }
 }
 
@@ -79,6 +99,8 @@ if (this.authenticationService.currentUserValue) {
         
     }
     get f() { return this.loginForm.controls; }
+    
+  
     onSubmit() {
         this.submitted = true;
 
@@ -100,11 +122,48 @@ if (this.authenticationService.currentUserValue) {
                   // sessionStorage.setItem("firstName",data.firstname)
                   // sessionStorage.setItem("lastName",data.lastname)
                     console.log("hhhhh",data)
-                    this.router.navigate([this.returnUrl]);
+                  
+                  
+                 
+                    if(this.authenticationService.currentUserValue.authorities.authority=="admin"){
+                        this.router.navigate([this.returnUrl]);
+                        this._fuseNavigationService.setCurrentNavigation(navigation);
+                        this._fuseNavigationService.register('main1', navigation);
+                
+                        // Set the main navigation as our current navigation
+                        this._fuseNavigationService.setCurrentNavigation('main1');
+                   
+                    }else   if(this.authenticationService.currentUserValue.authorities.authority=="architect"){
+                        this.router.navigate([this.returnUrl]);
+                        this._fuseNavigationService.setCurrentNavigation(navigation2);
+                        this._fuseNavigationService.register('main2', navigation2);
+                
+                        // Set the main navigation as our current navigation
+                        this._fuseNavigationService.setCurrentNavigation('main2');
+                   
+                
+                    }else if(this.authenticationService.currentUserValue.authorities.authority=="developer") {
+                        this.router.navigate([this.returnUrl]);
+                        this._fuseNavigationService.setCurrentNavigation(navigation3);
+                        this._fuseNavigationService.register('main3', navigation3);
+                
+                        // Set the main navigation as our current navigation
+                        this._fuseNavigationService.setCurrentNavigation('main3');
+                    } else { 
+                        this.router.navigate(["validation"]);
+                        this._fuseNavigationService.setCurrentNavigation(navigation4);
+                        this._fuseNavigationService.register('main4', navigation4);
+                
+                        // Set the main navigation as our current navigation
+                        this._fuseNavigationService.setCurrentNavigation('main4');
+
+                    }
                 },
                 error => {
                     this.error = error;
                     this.loading = false;
                 });
+                
+              
     }
 }

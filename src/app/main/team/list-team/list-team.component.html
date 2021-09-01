@@ -20,9 +20,8 @@
             [settings]="settings" 
             [source]="teams" 
             (deleteConfirm)="onDeleteConfirm($event)"
-            (custom)="onEdit($event)"
-            (custom2)="onDetail($event)"
-            (editConfirm)="onEditConfirm($event)"> 
+            (custom)="onEdit($event)">
+           
           </ng2-smart-table>
   
       <!-- / CONTENT -->
@@ -67,7 +66,14 @@
 
 </div>
 
-
+<ng2-smart-table 
+[settings]="settings1" 
+[source]="usersWteam" 
+(deleteConfirm)="onDeleteConfirm($event)"
+(custom)="onAssign($event)"
+(custom2)="onDetail($event)"
+(editConfirm)="onEditConfirm($event)"> 
+</ng2-smart-table>
 
 
 

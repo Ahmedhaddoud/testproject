@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Collaborater } from 'app/model/Collaborater';
 import { Equipe } from 'app/model/Equipe';
+import { CollaboraterService } from 'app/srevices/collaborater.service';
 import { EquipeService } from 'app/srevices/equipe.service';
 
 @Component({
@@ -10,10 +12,13 @@ import { EquipeService } from 'app/srevices/equipe.service';
   styleUrls: ['./list-team.component.scss']
 })
 export class ListTeamComponent implements OnInit {
-
+  c:Collaborater
   TeamForm:FormGroup;
+  ide:number;
   id:number;
   e:Equipe;
+  
+  usersWteam=[]
   projects=[];
   users=[];
  
@@ -41,13 +46,17 @@ export class ListTeamComponent implements OnInit {
       delete: true,
       custom: [
         {
+          name: 'detail',
+          title: '<i>exposure</i>'
+        },
+       {
           name: 'edit',
           title: '<i>edit</i>'
         },
-        {
-          name: 'detail',
-          title: '<i>exposure</i>'
-        }
+      /*  (custom)="onEdit($event)"
+         (editConfirm)="onEditConfirm($event)"> 
+        */
+      
       ],
       position: 'right'
     },
@@ -60,12 +69,66 @@ export class ListTeamComponent implements OnInit {
       class: 'table table-bordered'
     },
   };
-  constructor(private ts:EquipeService,private router:Router,private fb:FormBuilder) { }
+  settings1 = {
+    delete: {
+      confirmDelete: true,
+
+      deleteButtonContent: '<i>delete</i>',
+      saveButtonContent: 'save',
+      cancelButtonContent: 'cancel'
+    },
+    columns: {
+      firstName: {
+        title: 'firstName'
+      },
+      lastName: {
+        title: 'lastName'
+      }
+      
+    },
+    actions: {
+      add: false,
+      edit: false,
+      delete: true,
+      custom: [
+        {
+          name: 'assign',
+          title: '<i>add_circle</i>'
+        },
+       /* {
+          name: 'detail',
+          title: '<i>exposure</i>'
+        }*/
+      ],
+      position: 'right'
+    },
+    
+    pager: {
+      display: true,
+      perPage: 10
+    },
+    attr: {
+      class: 'table table-bordered'
+    },
+  };
+
+
+  constructor(private ts:EquipeService,private router:Router,private fb:FormBuilder,private cs:CollaboraterService) { }
 
   ngOnInit() :void{
     
     this.getTeams();    
    this.initialiazeForm();
+   this.getCollabWithoutTeam();
+  }
+  getCollaboratersWithoutTeam() {
+    this.ts.getEquipes().subscribe(
+      data => {
+        this.teams = data;
+        console.log(data);
+      },
+      (error) => console.log(error)
+    );
   }
 
   getTeams() {
@@ -77,6 +140,16 @@ export class ListTeamComponent implements OnInit {
       (error) => console.log(error)
     );
   }
+  getCollabWithoutTeam() {
+    this.cs.getCollaboratersWithoutTeam().subscribe(
+      data => {
+        this.usersWteam = data;
+        console.log(data);
+      },
+      (error) => console.log(error)
+    );
+  }
+
 
   initialiazeForm():void{
     this.TeamForm=this.fb.group({
@@ -105,6 +178,16 @@ export class ListTeamComponent implements OnInit {
   }
 
 
+  onCustom(event) {
+    switch ( event.action) {
+      case 'name':
+        this.onEdit(event);
+        break;
+      case 'description':
+        this.onDetailEquipe(event);
+    }
+  }
+
   onEdit(event) {
     //console.log(event.data.id)
     this.TeamForm.controls.name.setValue(event.data.name);
@@ -113,6 +196,20 @@ export class ListTeamComponent implements OnInit {
     this.projects=event.data.projects;
     this.users=event.data.users;
 
+  }
+
+  onAssign(event) {
+   // console.log(event.data.id)
+   this.c = new Collaborater();
+   this.c=event.data;
+   this.ts.AssignCollaboraterEquipe(this.ide,this.c).subscribe(data=>{
+
+    console.log(data);
+    this.getCollabWithoutTeam();
+   // console.log("success",this.c.firstName);
+   });
+  
+   console.log("success",this.c.firstName);
   }
   onSubmit(){
     this.e=new Equipe();
@@ -137,8 +234,9 @@ export class ListTeamComponent implements OnInit {
 
 
   }
-  onDetail(event) {
+  onDetailEquipe(event) {
     console.log(event.data.id)
+    this.ide=event.data.id;
   }
   }
     

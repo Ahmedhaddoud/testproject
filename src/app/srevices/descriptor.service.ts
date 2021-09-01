@@ -12,8 +12,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 export class DescriptorService {
 
- 
-  private baseUrl = '/api/v1';
+  baseUrl: string='http://localhost:8081/api/v1';
+ // private baseUrl = '/api/v1';
 
   constructor(private http: HttpClient) { }
 
@@ -61,7 +61,7 @@ export class DescriptorService {
     
  
   }
-  addDescriptor(descriptor: Object): Observable<Object> {
+  addDescriptor(descriptor: Object): Observable<any> {
     return this.http.post<Descriptor>(this.baseUrl+'/saveConfigDescriptor', descriptor);
     
  

@@ -3,7 +3,7 @@ import { FuseNavigation } from '@fuse/types';
 
 
  
-export const navigation: FuseNavigation[] = [
+export const navigation3: FuseNavigation[] = [
     {
         id       : 'applications',
         title    : 'Applications',
@@ -28,30 +28,7 @@ export const navigation: FuseNavigation[] = [
                 url      : 'http://localhost:1358/?appname=config-descriptor&url=http://localhost:9200&mode=edit',
                 //port:1358
             },
-            {
-                id       : 'collaborater',
-                title    : 'ColaboraterSection',
-                translate: 'Colaborater Section',
-                type     : 'collapsable',
-                icon     : 'layers',
-                children : [
-                   
-                    {
-                        id        : 'addCollaborater',
-                        title     : 'Add Collaborater',
-                        type      : 'item',
-                        url       : '/collaborater/add',
-                        exactMatch: true
-                    }, {
-                        id        : 'listCollaboraters',
-                        title     : 'List of  Collaboraters',
-                        type      : 'item',
-                        url       : '/list',
-                        exactMatch: true
-                    }
-
-                ]
-            },
+            
             {
                 id       : 'team',
                 title    : 'TeamSection',
@@ -64,12 +41,6 @@ export const navigation: FuseNavigation[] = [
                         title     : 'List of  Teams',
                         type      : 'item',
                         url       : '/listTeam',
-                        exactMatch: true
-                    }, {
-                        id        : 'addTeam',
-                        title     : 'add team',
-                        type      : 'item',
-                        url       : '/addTeam',
                         exactMatch: true
                     }
                    
@@ -85,7 +56,7 @@ export const navigation: FuseNavigation[] = [
                 children : [
                     {
                         id        : 'listProjects',
-                        title     : 'List of projects',
+                        title     : 'My projects',
                         type      : 'item',
                         url       : '/listProjects',
                         exactMatch: true
@@ -101,7 +72,7 @@ export const navigation: FuseNavigation[] = [
                 children : [
                     {
                         id        : 'ListTemp',
-                        title     : 'List of templates ',
+                        title     : 'My templates ',
                         type      : 'item',
                         url       : '/ListTemp',
                         exactMatch: true
