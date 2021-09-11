@@ -3,7 +3,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes } from "@angular/router";
-import { MatMomentDateModule } from "@angular/material-moment-adapter";
+import { MatMomentDateModule, MomentDateModule } from "@angular/material-moment-adapter";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { TranslateModule } from "@ngx-translate/core";
@@ -37,7 +37,10 @@ import { CompleterService } from "@akveo/ng2-completer"
 import { TeamModule } from "./main/team/team.module";
 import { ProjectModule } from "./main/project/project.module";
 import { TempConfigDescriptorModule } from "./main/temp-config-descriptor/temp-config-descriptor.module";
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDialog, MatDialogModule, MatGridListModule, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DIALOG_DATA } from "@angular/material";
+import { MY_DATE_FORMATS } from "./shared/my-date-formats";
+import { DialogComponent } from "./main/dialog/dialog.component";
 const appRoutes: Routes = [
     {
         path        : 'pages',
@@ -90,6 +93,7 @@ const appRoutes: Routes = [
 
 @NgModule({
     declarations: [AppComponent, ViewDescriptorComponent],
+    
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
@@ -119,18 +123,35 @@ const appRoutes: Routes = [
         MatFormFieldModule,
         MatCheckboxModule,
         MatInputModule,
-       
+        MatDatepickerModule,
        Ng2SmartTableModule,
        CollaboraterModule,
        DescriptorModule,
        TeamModule,
        ProjectModule,
-       TempConfigDescriptorModule
+       TempConfigDescriptorModule,
+       MatDatepickerModule,
+        MatNativeDateModule,
+        MomentDateModule,
+        MatDialogModule, 
+        
+      
     ],
     exports: [MatButtonModule,MatButtonModule,
         MatFormFieldModule,
         MatIconModule,
-        MatInputModule,],
+        MatInputModule,
+        MatNativeDateModule,
+        MatDatepickerModule,
+     
+    ],
+    providers: [
+        MatDatepickerModule,
+        MatNativeDateModule,
+
+        {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
+      
+        ],
     bootstrap: [AppComponent],
 })
 

@@ -8,7 +8,7 @@
               <div fxLayout="row" fxLayoutAlign="start center">
                   <mat-icon class="secondary-text s-18">home</mat-icon>
                   <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
-                  <span class="secondary-text">Add Team</span>
+                  <span class="secondary-text">Add Project</span>
               </div>
               
           </div>
@@ -18,8 +18,8 @@
     
   </div>
   <div>
-    <p>Add Team</p>
-    <form [formGroup]="TeamForm" > 
+    <p>Add Project</p>
+    <form [formGroup]="ProjectForm" (ngSubmit)="onSubmit()"> 
      
       <div class="form-group row">
     <mat-form-field appearance="outline" fxFlex="20">
@@ -37,11 +37,34 @@
 
 </mat-form-field>
   </div>
-
+  <div class="form-group row">
+    <mat-form-field appearance="fill">
+      <mat-label>Start Date of Project</mat-label>
+    <input matInput [matDatepicker]="startDate"  placeholder="Choose a date" (dateChange)="startDateChanged($event)">
+    <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+  <mat-datepicker #startDate></mat-datepicker>
+ 
+  
+  
+  </mat-form-field>
+    </div>
 
 
 
   
+    <div class="form-group row">
+      <mat-form-field appearance="fill">
+        <mat-label>End Date of Project</mat-label>
+      <input matInput [matDatepicker]="endDate" placeholder="Choose a date" (dateChange)="endDateChanged($event)" >
+      <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+    <mat-datepicker #endDate></mat-datepicker>
+   
+    
+    </mat-form-field>
+      </div>
+
+    
+     
 
  
 
@@ -51,18 +74,12 @@
 
 
   <div class="form-group row">
-  <button mat-raised-button color="primary" (click)="onSubmit()">Create Team</button>
- 
-  
+  <button mat-raised-button color="primary">Create Project</button>
+  {{ startDerror }}
 </div>
-<div class="form-group row">
-  <button mat-raised-button color="warn" (click)="onCancel()">cancel</button>
- 
-  
-</div>
+
   
 </form>
-
   
 
 

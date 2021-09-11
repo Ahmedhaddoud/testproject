@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {ApiResponse} from "../model/api.response";
 import {Equipe} from "../model/Equipe";
 import { Collaborater } from 'app/model/Collaborater';
+import { Project } from 'app/model/Project';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,10 @@ export class EquipeService {
   GetEquipeById(id: number):Observable<any>{
     return this.http.get(this.baseUrl+"/afficherequipe/"+ id);
   }
-  CreateEquipe(equipe:Equipe): Observable<ApiResponse>{
+  GetEquipeByUser(id: number):Observable<any>{
+    return this.http.get(this.baseUrl+"/afficherequipeUser/"+ id);
+  }
+  CreateEquipe(equipe:Equipe): Observable<any>{
     return this.http.post<ApiResponse>(this.baseUrl+"/ajouterequipe", equipe);
 
   }
@@ -36,5 +40,13 @@ export class EquipeService {
   return this.http.put<ApiResponse>(this.baseUrl+"/assign/"+ide, c);
   
 }
+AssignProjectEquipe(ide: number, p:Project): Observable<ApiResponse>{
+  console.log("success service");
+return this.http.put<ApiResponse>(this.baseUrl+"/assignProjet/"+ide, p);
 
+}
+GetCollaboraterByTeam(id: number):Observable<any>{
+  return this.http.get("http://localhost:8080/collaborater/collaboratersEquipe/"+id);
+  
+}
 }

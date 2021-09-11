@@ -116,11 +116,7 @@ if (this.authenticationService.currentUserValue) {
                 data => {
                     console.log("emailaaaaaaaaa",this.form.email);
 
-                 //  localStorage.setItem("firstName",data.firstName)
-                   //localStorage.setItem("lastName",data.lastName)
-
-                  // sessionStorage.setItem("firstName",data.firstname)
-                  // sessionStorage.setItem("lastName",data.lastname)
+                 
                     console.log("hhhhh",data)
                   
                   

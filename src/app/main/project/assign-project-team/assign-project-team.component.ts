@@ -1,27 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Collaborater } from 'app/model/Collaborater';
-import { Equipe } from 'app/model/Equipe';
-import { CollaboraterService } from 'app/srevices/collaborater.service';
+import { Project } from 'app/model/Project';
 import { EquipeService } from 'app/srevices/equipe.service';
+import { ProjectService } from 'app/srevices/project.service';
 
 @Component({
-  selector: 'app-list-team',
-  templateUrl: './list-team.component.html',
-  styleUrls: ['./list-team.component.scss']
+  selector: 'app-assign-project-team',
+  templateUrl: './assign-project-team.component.html',
+  styleUrls: ['./assign-project-team.component.scss']
 })
-export class ListTeamComponent implements OnInit {
-  c:Collaborater
-  TeamForm:FormGroup;
-  ide:number;
-  id:number;
-  e:Equipe;
-  name:'';
-  
-  usersWteam=[]
+export class AssignProjectTeamComponent implements OnInit {
+
+ 
+  p:Project;
+  projectsWteam=[]
   projects=[];
   users=[];
+  ide:number;
+  name:'';
  
   teams= [];  
   settings = {
@@ -79,12 +76,19 @@ export class ListTeamComponent implements OnInit {
       cancelButtonContent: 'cancel'
     },
     columns: {
-      firstName: {
-        title: 'firstName'
+      name: {
+        title: 'name'
       },
-      lastName: {
-        title: 'lastName'
+      description: {
+        title: 'description'
+      },
+      startDate: {
+        title: 'Start Date'
+      },
+      endDate: {
+        title: 'End Date'
       }
+
       
     },
     actions: {
@@ -114,23 +118,15 @@ export class ListTeamComponent implements OnInit {
   };
 
 
-  constructor(private ts:EquipeService,private router:Router,private fb:FormBuilder,private cs:CollaboraterService) { }
+  constructor(private ts:EquipeService,private router:Router,private fb:FormBuilder,private ps:ProjectService) { }
 
   ngOnInit() :void{
     
     this.getTeams();    
-   this.initialiazeForm();
-   this.getCollabWithoutTeam();
+  
+   this.getProjectsWithoutTeam();
   }
-  getCollaboratersWithoutTeam() {
-    this.ts.getEquipes().subscribe(
-      data => {
-        this.teams = data;
-        console.log(data);
-      },
-      (error) => console.log(error)
-    );
-  }
+  
 
   getTeams() {
     this.ts.getEquipes().subscribe(
@@ -141,10 +137,10 @@ export class ListTeamComponent implements OnInit {
       (error) => console.log(error)
     );
   }
-  getCollabWithoutTeam() {
-    this.cs.getCollaboratersWithoutTeam().subscribe(
+  getProjectsWithoutTeam() {
+    this.ps.getProjectsWithoutTeam().subscribe(
       data => {
-        this.usersWteam = data;
+        this.projectsWteam = data;
         console.log(data);
       },
       (error) => console.log(error)
@@ -152,15 +148,7 @@ export class ListTeamComponent implements OnInit {
   }
 
 
-  initialiazeForm():void{
-    this.TeamForm=this.fb.group({
-    name:'',
-    description:'',
-   
-    
-    
-    })
-  }
+ 
  
   onDeleteConfirm(event) {
     console.log("Delete Event In Console")
@@ -179,70 +167,38 @@ export class ListTeamComponent implements OnInit {
   }
 
 
-  onCustom(event) {
-    switch ( event.action) {
-      case 'edit':
-        this.onEdit(event);
-        break;
-      case 'detail':
-        this.onDetailEquipe(event);
-    }
-  }
+ 
 
-  onEdit(event) {
-    //console.log(event.data.id)
-    this.TeamForm.controls.name.setValue(event.data.name);
-    this.TeamForm.controls.description.setValue(event.data.description);
-    this.id=event.data.id;
-    this.projects=event.data.projects;
-    this.users=event.data.users;
-
-  }
+ 
 
   onAssign(event) {
    // console.log(event.data.id)
-   this.c = new Collaborater();
-   this.c=event.data;
-   this.ts.AssignCollaboraterEquipe(this.ide,this.c).subscribe(data=>{
+   this.p=new Project();
+   this.p=event.data;
+   this.ts.AssignProjectEquipe(this.ide,this.p).subscribe(data=>{
 
     console.log(data);
-    this.getCollabWithoutTeam();
+    this.getProjectsWithoutTeam();
    // console.log("success",this.c.firstName);
    });
   
-   console.log("success",this.c.firstName);
+   console.log("success");
   }
-  onSubmit(){
-    this.e=new Equipe();
-
-    
-    this.e.name=this.TeamForm.controls.name.value;
-    this.e.description=this.TeamForm.controls.description.value;
-    this.e.projects=this.projects;
-    this.e.users=this.users;
-    
-
-    console.log(this.users);
-    this.ts.UpdateEquipe(this.id,this.e).subscribe(
-      data=>{console.log(data),error => console.error()
-        this.getTeams();
-      }
-      );
-     
-     
-   
-
-
-
-  }
+ 
   onDetailEquipe(event) {
     console.log(event.data.id)
 
     this.ide=event.data.id;
     this.name=event.data.name;
   }
+  onCustom(event) {
+    switch ( event.action) {
+      case 'edit':
+      //  this.onEdit(event);
+        break;
+      case 'detail':
+        this.onDetailEquipe(event);
+    }
   }
-    
 
-
-
+}

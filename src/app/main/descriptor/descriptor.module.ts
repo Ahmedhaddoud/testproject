@@ -22,6 +22,8 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { ViewDescriptorComponent } from '../view-descriptor/view-descriptor.component';
 import { DialogSuccessComponent } from '../dialog-success/dialog-success.component';
 import { ValidationComponent } from './validation/validation.component';
+import { ListConfigDescriptorsComponent } from './list-config-descriptors/list-config-descriptors.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 
 const routes = [
@@ -37,7 +39,12 @@ const routes = [
     {
         path     : 'Validation',
         component: ValidationComponent
+    },
+    {
+        path     : 'ListConfigD',
+        component: ListConfigDescriptorsComponent
     }
+
    
 ];
 
@@ -46,7 +53,8 @@ const routes = [
         DescriptorComponent,
         DialogComponent,
         DialogSuccessComponent,
-        ValidationComponent
+        ValidationComponent,
+        ListConfigDescriptorsComponent
         
     ],
     entryComponents: [DialogComponent,DialogSuccessComponent],
@@ -71,11 +79,13 @@ const routes = [
         MatSnackBarModule,
         
 
-        FuseSharedModule
+        FuseSharedModule,
+        Ng2SmartTableModule
     ],
     exports     : [
         DescriptorComponent,
-        ValidationComponent
+        ValidationComponent,
+        ListConfigDescriptorsComponent
         
     ]
 })

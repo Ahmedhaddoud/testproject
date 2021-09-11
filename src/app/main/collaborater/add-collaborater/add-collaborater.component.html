@@ -1,3 +1,120 @@
-<p>
-  add-collaborater works!
-</p>
+<div class="page-layout blank p-24" fusePerfectScrollbar>
+
+  <div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+
+      <!-- HEADER -->
+      <div class="header accent p-24 h-100" fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="center start">
+              <div fxLayout="row" fxLayoutAlign="start center">
+                  <mat-icon class="secondary-text s-18">home</mat-icon>
+                  <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                  <span class="secondary-text">Add Collaborater</span>
+              </div>
+              
+          </div>
+      </div>
+      <!-- / HEADER -->
+
+    
+  </div>
+  <div>
+    <p>Add Collaborater</p>
+    <form [formGroup]="CollaboraterForm" > 
+     
+      <div class="form-group row">
+    <mat-form-field appearance="outline" fxFlex="20">
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstName"   required  >
+    
+     
+  </mat-form-field>
+
+  </div>
+  <div class="form-group row">
+  <mat-form-field appearance="outline" fxFlex="20">
+    <mat-label><Label>Last Name</Label></mat-label>
+    <input matInput  formControlName="lastName" required>
+
+</mat-form-field>
+  </div>
+
+  <div class="form-group row">
+    <mat-form-field appearance="outline" fxFlex="20">
+      <mat-label><Label>email</Label></mat-label>
+      <input matInput  formControlName="email" required>
+  
+  </mat-form-field>
+    </div>
+
+    <div class="form-group row">
+      <mat-form-field appearance="outline" fxFlex="20">
+        <mat-label><Label>adress</Label></mat-label>
+        <input matInput  formControlName="adress" required>
+    
+    </mat-form-field>
+      </div>
+
+      <div class="form-group row">
+        <mat-form-field appearance="outline" fxFlex="20">
+          <mat-label><Label>password</Label></mat-label>
+          <input matInput  formControlName="password" required>
+      
+      </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Role</mat-label>
+          <select matNativeControl required  formControlName="role" (change)="selectChangeHandler($event)">
+            <option value="architect">architect</option>
+            <option value="developer" [selected]>developer</option>
+            <option value="product manager">product manager</option>
+          
+           
+           
+            
+            
+          </select>
+        </mat-form-field>
+  
+
+
+
+
+
+
+  
+
+ 
+
+
+
+
+
+
+  <div class="form-group row">
+  <button mat-raised-button color="primary" (click)="onSubmit()">Create Collaborater</button>
+ 
+  
+</div>
+<div class="form-group row">
+  <button mat-raised-button color="warn" (click)="onCancel()">cancel</button>
+ 
+  
+</div>
+  
+</form>
+
+  
+
+
+</div>
+
+</div>
+
+
+ 
+
+
+
+
+

@@ -89,7 +89,22 @@ export const navigation: FuseNavigation[] = [
                         type      : 'item',
                         url       : '/listProjects',
                         exactMatch: true
+                    },
+                    {
+                        id        : 'addProject',
+                        title     : 'Add Project',
+                        type      : 'item',
+                        url       : '/addProject',
+                        exactMatch: true
+                    }, {
+                        id        : 'assignProjectTeam',
+                        title     : 'Assign Project To team',
+                        type      : 'item',
+                        url       : '/assignProjectTeam',
+                        exactMatch: true
                     }
+
+
                 ]
             },
             {

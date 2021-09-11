@@ -1,0 +1,56 @@
+<div class="page-layout blank p-24" fusePerfectScrollbar>
+
+  <div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+
+      <!-- HEADER -->
+      <div class="header accent p-24 h-100" fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="center start">
+              <div fxLayout="row" fxLayoutAlign="start center">
+                  <mat-icon class="secondary-text s-18">home</mat-icon>
+                  <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                  <span class="secondary-text">My Team</span>
+              </div>
+              
+          </div>
+         
+      </div>
+    
+      <div id="cards" class="page-layout simple fullwidth">
+
+        <!-- HEADER -->
+        
+        <!-- CONTENT -->
+        <div class="content" [ngClass]="this.view">
+    
+            <div class="cards">
+    
+                <!-- CARD 1 -->
+                <div class="card">
+    
+                    <!-- PREVIEW -->
+                    <div class="card-preview">
+    
+                        <div class="fuse-card">
+    
+                            
+    
+                            <div class="p-16">
+                                <div class="h1">{{name}}</div>
+                                <div class="h4 secondary-text">{{description}}</div>
+                            </div>
+    
+                            <div class="p-16 pt-0 line-height-1.75">
+                              Number of collaboraters : {{numberCollab}}    
+                                  
+                            
+                            </div>
+                            <button mat-stroked-button color="primary" (click)="ListCollaboraters()">Show</button>       
+    
+                        </div>
+    
+                    </div>
+                    <!-- / PREVIEW -->
+    
+                    
+                </div>
+             

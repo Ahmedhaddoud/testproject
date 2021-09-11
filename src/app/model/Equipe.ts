@@ -2,12 +2,14 @@ import {Project} from "./Project";
 import {Collaborater} from "./Collaborater";
 
 export class Equipe{
-    id:number;
-   name:string;
+    
   description:string;
+  id:number;
+   name:string;
 
-  projects :Project[];
+  
 
   users :Collaborater[];
+  projects :Project[];
 
 }

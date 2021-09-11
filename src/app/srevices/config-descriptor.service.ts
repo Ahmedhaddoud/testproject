@@ -33,4 +33,23 @@ export class ConfigDescriptorService {
   DeleteConfigDescriptor(id:number):Observable<ApiResponse>{
     return this.http.delete<ApiResponse>(this.baseUrl+"/deleteconfigdescriptor/"+id);
   }
+  GetConfigDescriptorByUser(id: number):Observable<any>{
+    return this.http.get(this.baseUrl+"/afficherconfigdescriptorUser/"+id);
+  }
+  getConfigDescriptorsNotValidated() : Observable<any>{
+    return this.http.get<any>(this.baseUrl+"/configdescriptorsNotValidated");
+
+  }
+ 
+  refuseConfigDescriptor(id:any,msg:string) : Observable<any>{
+    return this.http.put<any>(this.baseUrl+"/Refuseconfigdescriptor/"+id,msg);
+
+  }
+
+  acceptConfigDescriptor(id:any,msg:string):Observable<any>{
+    return this.http.put<any>(this.baseUrl+"/Acceptconfigdescriptor/"+id,msg);
+
+  }
+
+
 }

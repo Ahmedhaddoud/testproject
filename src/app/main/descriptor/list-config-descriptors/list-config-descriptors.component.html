@@ -1,0 +1,49 @@
+<div class="page-layout blank p-24" fusePerfectScrollbar>
+
+  <div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+
+      <!-- HEADER -->
+      <div class="header accent p-24 h-100" fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="center start">
+              <div fxLayout="row" fxLayoutAlign="start center">
+                  <mat-icon class="secondary-text s-18">home</mat-icon>
+                  <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                  <span class="secondary-text">List of My ConfigDescriptors</span>
+              </div>
+              
+          </div>
+      </div>
+      <!-- / HEADER -->
+
+      <!-- CONTENT -->
+      <label>My Projects</label>
+      <ng2-smart-table 
+      [settings]="settings1" 
+      [source]="projects" 
+     
+      
+      (custom)="onDetail($event)"
+      > 
+      
+    </ng2-smart-table>
+    <label>My Config Descriptors not belong to any project</label>
+    <ng2-smart-table 
+            [settings]="settings" 
+            [source]="configDescriptors" 
+           
+            (custom)="onAssign($event)"> 
+          </ng2-smart-table>
+
+          <label>My Rejected Config Descriptors</label>
+          <ng2-smart-table 
+                  [settings]="settings2" 
+                  [source]="listRejected" 
+                 
+                  (custom)="onAssign($event)"> 
+                </ng2-smart-table>
+        
+  
+      <!-- / CONTENT -->
+
+  </div>
+

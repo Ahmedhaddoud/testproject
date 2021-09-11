@@ -14,3 +14,11 @@
               
           </div>
       </div>
+      <ng2-smart-table 
+      [settings]="settings" 
+      [source]="configDescriptors" 
+      (deleteConfirm)="onDeleteConfirm($event)"
+      (custom)="onCustom($event)"
+      
+      > 
+    </ng2-smart-table>

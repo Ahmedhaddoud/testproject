@@ -37,32 +37,34 @@ export const navigation3: FuseNavigation[] = [
                 icon     : 'layers',
                 children : [
                     {
-                        id        : 'listTeam',
-                        title     : 'List of  Teams',
+                        id        : 'myTeam',
+                        title     : 'My Team',
                         type      : 'item',
-                        url       : '/listTeam',
+                        url       : '/myTeam',
                         exactMatch: true
                     }
                    
                    
                 ]
             },
+           
             {
-                id       : 'project',
-                title    : 'ProjectSection',
-                translate: 'Project Section',
+                id       : 'Desriptor',
+                title    : 'Descriptor Section',
+                translate: 'DescriptorSection',
                 type     : 'collapsable',
                 icon     : 'layers',
                 children : [
                     {
-                        id        : 'listProjects',
-                        title     : 'My projects',
+                        id        : 'ListConfigD',
+                        title     : 'My Config Descriptors',
                         type      : 'item',
-                        url       : '/listProjects',
+                        url       : '/ListConfigD',
                         exactMatch: true
                     }
                 ]
             },
+           
             {
                 id       : 'TempConfig',
                 title    : 'TempConfigSection',

@@ -8,7 +8,9 @@ export class Collaborater
   email:string;
   adress:string;
   role:string;
+  password:string;
   equipe:Equipe;
+  username:string;
 
 
 }

@@ -24,8 +24,8 @@ export class CollaboraterService {
   GetCollaboraterById(id: number):Observable<any>{
     return this.http.get(this.baseUrl+"/collaboraters/"+ id);
   }
-  CreateCollaborater(collaborater:Collaborater,idequipe:number): Observable<ApiResponse>{
-    return this.http.post<ApiResponse>(this.baseUrl+"/collaboraters/"+idequipe, collaborater);
+  CreateCollaborater(collaborater:Collaborater): Observable<any>{
+    return this.http.post<any>("http://localhost:8080/register", collaborater);
 
   }
   UpdateCollaborater(id: number, collaborater:Collaborater): Observable<ApiResponse>{
@@ -35,4 +35,5 @@ export class CollaboraterService {
   DeleteCollaborater(id:number):Observable<ApiResponse>{
     return this.http.delete<ApiResponse>(this.baseUrl+"/collaboraters/"+id);
   }
+ 
 }

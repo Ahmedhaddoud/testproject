@@ -3,19 +3,30 @@ import { CommonModule } from '@angular/common';
 import { ListProjectsComponent } from './list-projects/list-projects.component';
 import { RouterModule, Routes } from '@angular/router';
 
-import { MatButtonModule, MatCheckboxModule, MatChipsModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatStepperModule, MatTableModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatIconModule, MatInputModule, MatNativeDateModule, MatSelectModule, MatSnackBarModule, MatStepperModule, MatTableModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { AddProjectComponent } from './add-project/add-project.component';
+import { AssignProjectTeamComponent } from './assign-project-team/assign-project-team.component';
 export const routes: Routes = [
   {
       path     : 'listProjects',
       component: ListProjectsComponent,
-  }
+  },
+  {
+    path     : 'addProject',
+    component: AddProjectComponent,
+}, {
+  path     : 'assignProjectTeam',
+  component: AssignProjectTeamComponent,
+}
+
+  
 ]
 @NgModule({
   
-  declarations: [ListProjectsComponent],
+  declarations: [ListProjectsComponent, AddProjectComponent, AssignProjectTeamComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -34,12 +45,14 @@ export const routes: Routes = [
       MatDialogModule,
       MatSnackBarModule,
       FuseSharedModule,
-      Ng2SmartTableModule
+      Ng2SmartTableModule,
+      MatDatepickerModule,
+      MatNativeDateModule
    
      
   ],
  
 
-  exports     : [ListProjectsComponent],
+  exports     : [ListProjectsComponent,AddProjectComponent,AssignProjectTeamComponent],
 })
 export class ProjectModule { }
